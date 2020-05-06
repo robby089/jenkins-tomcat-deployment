@@ -6,7 +6,7 @@ stages {
 stage ('check_out')
 {
 steps {
-    git 'https://github.com/amitvermaa93/jenkins-tomcat-deployment.git'
+    git credentialsId: 'Robby089', url: 'https://github.com/robby089/jenkins-tomcat-deployment.git'
 }    
 }
  stage ('java_compile')
@@ -57,7 +57,7 @@ steps {
 stage ('Deploying_File')
   {
 steps {
-   deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://localhost:8081')], contextPath: 'jenkins-tomcat', war: 'target\\jenkins-tomcat.war'
+   deploy adapters: [tomcat9(credentialsId: 'Tomcat9', path: '', url: 'http://localhost:8089')], contextPath: 'jenkins-tomcat', war: 'target\\jenkins-tomcat.war'
 }    
 }
 
