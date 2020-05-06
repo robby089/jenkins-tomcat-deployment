@@ -1,0 +1,51 @@
+node('build') {
+   
+    stage('scm') {
+     git credentialsId: 'git', url: 'https://github.com/Robby0866/game-of-life.git'
+   
+}
+stage('build') {
+sh label: '', script: 'mvn clean install package'
+}
+stage('SonarQube analysis') {
+    // performing sonarqube analysis with "withSonarQubeENV(<Name of Server configured in Jenkins>)"
+    withSonarQubeEnv('sonar') {
+      // requires SonarQube Scanner for Maven 3.2+
+      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+    }
+}
+
+stage('archive') {
+archiveArtifacts 'gameoflife-web/target/*.war'
+   
+}
+stage('artifactory') {
+sh label: '', script: 'curl -uadmin:APivgbXYYQmXsoB3gtWEkpkD3e -T /home/maven/workspace/Sample/gameoflife-web/target/*.war "http://3.20.109.165:8082/artifactory/gol/gol$BUILD_NUMBER.war"'
+   
+}
+
+
+
+
+
+}
+node('docker') {
+   
+stage('scm') {
+   git credentialsId: 'git', url: 'https://github.com/Robby0866/docker.git'
+}
+stage('docker') {
+   sh label: '', script: '''
+
+
+docker build --build-arg arti=http://3.20.109.165:8082/artifactory/gol/gol$BUILD_NUMBER.war   --build-arg src=gol$BUILD_NUMBER.war  -t  robertdevops9/1_sample:$BUILD_NUMBER .
+
+
+sudo docker login -u robertdevops9 -p Robby@0866 docker.io
+
+sudo docker push robertdevops9/1_sample:$BUILD_NUMBER
+sudo docker container run --name container$BUILD_NUMBER -d -P robertdevops9/1_sample:$BUILD_NUMBER
+
+'''
+}
+}
