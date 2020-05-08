@@ -3,7 +3,7 @@ node{
     git credentialsId: 'Robby089', url: 'https://github.com/robby089/game-of-life.git'
 }
 stage('Maven'){
-    bat label: '', script: 'mvn package'
+    bat label: '', script: 'mvn clean package'
 }
 stage('Junit') {
     
@@ -20,6 +20,9 @@ stage('SonarQube analysis') {
 }
 stage('Artifactory'){
    bat label: '', script: 'curl -X PUT -u admin:password -T "C:\\Program Files (x86)\\Jenkins\\workspace\\game\\gameoflife-web\\target\\gameoflife.war" "http://localhost:8081/artifactory/gol09/gameoflife.war"'
+}
+stage('Deploy') {
+    deploy adapters: [tomcat9(credentialsId: 'newtomcat', path: '', url: 'http://localhost:8089')], contextPath: 'gameoflife', war: '**/target/*.war'
 }
 }
 
