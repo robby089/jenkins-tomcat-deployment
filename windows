@@ -6,7 +6,7 @@ stage('Maven'){
     bat label: '', script: 'mvn clean package'
 }
 stage('Junit') {
-    
+    junit 'gameoflife-web\\target\\surefire-reports\\*.xml'
 }
 stage('Archive') {
     archive 'gameoflife-web\\target\\*.war'
