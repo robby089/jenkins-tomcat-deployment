@@ -58,6 +58,20 @@ stage ('Deploying_File')
   {
 steps {
    deploy adapters: [tomcat9(credentialsId: 'Tomcat9', path: '', url: 'http://localhost:8089')], contextPath: 'jenkins-tomcat', war: 'target\\jenkins-tomcat.war'
+
+
+
+
+
+
+
+
+
+
+
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+hiM3KjBbcUQfaveE3FRuvurDG7rgfzZlxuPyq6W0rwqdWz7jmo0XeassV4c0Q0i93UWFx6Kdn7PNFqgRsPZrNJdFQG8QKcukSiT7AJHyUxp6IIN/aUbpe1bN4HOA8asMTSOUjmgAHz0L4wV19LMZIYn7KnKah/6r1VKcQ1nL2uxQiTbM1XMz0tnp3SSOdSDxnrBfKszqHRdDhD+sk5g8bPoryfeCtf293oxDNtXdDv71lBQJ6XFP1k923cJdSQfwVAAApQmJ7YwejPvneSYGwoC3YrYf+yZoKThtLXHK9lnHv9cV8L6yTr2BVvqY9u28Plkyi2kMqgQZnMJdhw8p root@inpocor04.cloud.vssi.com
 }    
 }
 
